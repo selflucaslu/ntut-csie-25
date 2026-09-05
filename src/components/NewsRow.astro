@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/date';
+
+interface Props {
+	post: CollectionEntry<'news'>;
+	variant?: 'default' | 'compact';
+	headingLevel?: 'h2' | 'h3';
+}
+
+const {
+	post,
+	variant = 'default',
+	headingLevel = 'h2',
+} = Astro.props;
+
+// 由呼叫頁面決定使用 h2 或 h3，維持正確的標題層級。
+const Heading = headingLevel;
+// compact 用於首頁；default 用於完整的消息列表頁。
+const isCompact = variant === 'compact';
+---
+
+<li class="border-b border-neutral-200">
+	<a
+		href={`/news/${post.id}/`}
+		class:list={[
+			'group grid gap-3',
+			isCompact
+				? 'py-7 sm:grid-cols-[8rem_minmax(0,1fr)_auto] sm:items-start sm:gap-8 sm:py-8'
+				: 'py-8 sm:grid-cols-[9rem_minmax(0,1fr)_auto] sm:items-start sm:gap-8 sm:py-10',
+		]}
+	>
+		<time class="pt-1 font-mono text-xs tabular-nums text-neutral-400" datetime={post.data.pubDate.toISOString()}>
+			{formatDate(post.data.pubDate)}
+		</time>
+		<div>
+			<Heading class:list={[
+				'leading-8 font-medium tracking-tight decoration-neutral-300 underline-offset-6 group-hover:underline',
+				isCompact ? 'text-lg' : 'text-xl',
+			]}>
+				{post.data.title}
+			</Heading>
+			<p class:list={['mt-2 text-sm leading-7 text-neutral-500', !isCompact && 'max-w-2xl']}>
+				{post.data.description}
+			</p>
+		</div>
+		<span class="hidden pt-1 text-sm text-neutral-400 sm:block" aria-hidden="true">閱讀</span>
+	</a>
+</li>

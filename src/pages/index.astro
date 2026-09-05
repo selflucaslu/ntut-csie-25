@@ -1,33 +1,104 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import NewsRow from '../components/NewsRow.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 
-// 先依日期由新到舊排序，再取前三篇。
+// 首頁只取最新三則消息；完整清單交由 /news 頁面顯示。
 const posts = (await getCollection('news'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.slice(0, 3);
+
+// 集中管理外部表單網址，日後更換表單時只需修改這裡。
+const contactFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdd2TL9b26YjzRanGrIVEjUGQx1DKZHShIlHZ6xmOXwCYtlZw/viewform';
 ---
 
 <Layout>
-	<Welcome />
-	<section aria-labelledby="news-title">
-		<h2 id="news-title">最新公告</h2>
-		<ul class="news-list">
-			{posts.map((post) => (
-				<li>
-					<time datetime={post.data.pubDate.toISOString()}>
-						{post.data.pubDate.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei' })}
-					</time>
-					<h3><a href={`/news/${post.id}/`}>{post.data.title}</a></h3>
-					<p>{post.data.description}</p>
-				</li>
-			))}
+	<!-- 首頁主視覺；按鈕會平滑捲動至下方的 #news。 -->
+	<section class="relative overflow-hidden border-b border-neutral-200 py-20 text-center sm:py-24 lg:py-28">
+		<div data-reveal class="mx-auto max-w-4xl">
+			<p lang="en" class="mb-7 font-mono text-xs tracking-[0.18em] text-neutral-500">TAIPEI TECH · DEPARTMENT OF COMPUTER SCIENCE</p>
+			<h1 class="text-[clamp(2.6rem,7vw,5.5rem)] leading-[1.12] font-semibold tracking-[-0.055em] text-balance">
+				北科資工系學會
+			</h1>
+			<p lang="en" class="mx-auto mt-5 max-w-3xl text-[clamp(1.2rem,3vw,2rem)] leading-tight font-normal tracking-[-0.025em] text-neutral-400">
+				Computer Science Student Association
+			</p>
+			<p class="mt-10 text-base text-neutral-600">
+				<span data-typewriter class="inline-block whitespace-nowrap">歡迎來到北科資工系學會官方網站</span><span data-caret aria-hidden="true" class="ml-1 inline-block h-4 w-px bg-neutral-700 align-middle"></span>
+			</p>
+			<a href="#news" class="group mt-9 inline-flex min-h-10 items-center gap-3 border-b border-neutral-300 text-sm text-neutral-600 transition-colors hover:border-neutral-950 hover:text-neutral-950">
+				查看最新消息 <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-y-1">↓</span>
+			</a>
+		</div>
+	</section>
+
+	<section id="news" class="mx-auto max-w-4xl scroll-mt-8 pt-14 pb-8 sm:pt-20 sm:pb-12" aria-labelledby="news-title">
+		<div data-reveal class="mb-9 flex items-end justify-between gap-6">
+			<div>
+				<h2 id="news-title" class="text-2xl font-semibold tracking-tight sm:text-3xl">最新消息</h2>
+				<p lang="en" class="mt-2 text-sm text-neutral-400">Latest news</p>
+			</div>
+			<a class="group flex min-h-10 items-center gap-2 text-sm text-neutral-500 transition-colors hover:text-neutral-950" href="/news/">
+				查看全部 <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-1">→</span>
+			</a>
+		</div>
+
+		<ul data-reveal class="border-t border-neutral-200">
+			<!-- compact 版本讓首頁消息列比完整列表更緊湊。 -->
+			{posts.map((post) => <NewsRow post={post} variant="compact" headingLevel="h3" />)}
 		</ul>
-		{posts.length === 0 && <p>目前沒有公告。</p>}
-		<a href="/news/">查看所有公告 →</a>
+		{posts.length === 0 && <p class="border-y border-neutral-200 py-8 text-sm text-neutral-500">目前沒有消息。</p>}
 	</section>
-	<section id="contact" aria-labelledby="contact-title">
-		<h2 id="contact-title">聯絡我們</h2>
+
+	<section id="contact" data-reveal class="mx-auto grid max-w-4xl scroll-mt-8 gap-8 pt-10 pb-8 sm:grid-cols-[13rem_minmax(0,1fr)] sm:gap-12 sm:pt-14 sm:pb-10" aria-labelledby="contact-title">
+		<div>
+			<h2 id="contact-title" class="text-2xl font-semibold tracking-tight sm:text-3xl">聯絡我們</h2>
+			<p lang="en" class="mt-2 text-sm text-neutral-400">Get in touch</p>
+		</div>
+		<div>
+			<p class="max-w-2xl text-base leading-8 text-neutral-600 sm:text-lg sm:leading-9">有任何問題、合作邀請、活動提案，或只是想對系學會說些什麼，都歡迎與我們聯絡。</p>
+			<a
+				href={contactFormUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label="前往聯絡表單（在新分頁開啟）"
+				class="group mt-8 flex min-h-16 w-full max-w-2xl items-center justify-between gap-6 border-y border-neutral-200 py-4 text-base font-medium text-neutral-800 transition-colors hover:border-neutral-500 hover:text-neutral-950"
+			>
+				填寫聯絡表單
+				<span aria-hidden="true" class="font-mono text-sm text-neutral-400 transition-all group-hover:text-neutral-950 motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1">↗</span>
+			</a>
+		</div>
 	</section>
+
+	<SocialLinks />
 </Layout>
+
+<script>
+	const text = document.querySelector<HTMLElement>('[data-typewriter]');
+	const caret = document.querySelector<HTMLElement>('[data-caret]');
+	// 尊重使用者的「減少動態效果」系統設定。
+	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	if (text && caret && !reducedMotion && 'animate' in text) {
+		// 依照實際字數切成相同步數，形成逐字顯示的效果。
+		const steps = Array.from(text.textContent ?? '').length;
+		text.animate(
+			[
+				{ clipPath: 'inset(0 100% 0 0)' },
+				{ clipPath: 'inset(0 0 0 0)' },
+			],
+			{ duration: 900, delay: 250, easing: `steps(${steps}, end)`, fill: 'both' }
+		);
+		const blink = caret.animate([{ opacity: 1 }, { opacity: 0 }], {
+			duration: 550,
+			iterations: Infinity,
+			direction: 'alternate',
+		});
+		// 動畫結束後隱藏游標，避免它一直閃爍干擾閱讀。
+		window.setTimeout(() => {
+			blink.cancel();
+			caret.hidden = true;
+		}, 1900);
+	}
+</script>

@@ -2,8 +2,9 @@
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
+import { formatDate } from '../../../lib/date';
 
-// 每篇 Markdown 產生一個網址，例如 /news/welcome/。
+// 靜態建置時，替每篇 Markdown 消息產生一個 /news/[slug]/ 網頁。
 export async function getStaticPaths() {
 	const posts = await getCollection('news');
 	return posts.map((post) => ({
@@ -12,18 +13,45 @@ export async function getStaticPaths() {
 	}));
 }
 
-interface Props { post: CollectionEntry<'news'>; }
+interface Props {
+	post: CollectionEntry<'news'>;
+}
 const { post } = Astro.props;
+// 將目前文章的 Markdown 內容轉成可在 Astro 頁面使用的元件。
 const { Content } = await render(post);
+const dateLabel = formatDate(post.data.pubDate);
 ---
 
 <Layout title={`${post.data.title}｜北科資工系學會`} description={post.data.description}>
-	<a href="/news/">← 回到最新公告</a>
-	<article>
-		<h1>{post.data.title}</h1>
-		<time datetime={post.data.pubDate.toISOString()}>
-			{post.data.pubDate.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei' })}
-		</time>
-		<Content />
-	</article>
+	<div class="mx-auto max-w-4xl pt-5 pb-16 sm:pt-7 sm:pb-24">
+		<a href="/news/" class="group inline-flex min-h-11 items-center gap-3 text-sm text-neutral-500 transition-colors hover:text-neutral-950">
+			<span aria-hidden="true" class="transition-transform motion-safe:group-hover:-translate-x-1">←</span> 所有消息
+		</a>
+		<article class="mt-4 sm:mt-6" aria-labelledby="article-title">
+			<header data-reveal class="border-b border-neutral-200 pb-9 sm:pb-10">
+				<div class="mb-4 flex items-center gap-4 text-sm text-neutral-500 sm:mb-5">
+					<span lang="en" class="font-mono text-xs tracking-[0.16em] text-neutral-400">NEWS</span>
+					<span class="h-3 w-px bg-neutral-300" aria-hidden="true"></span>
+					<time class="font-mono text-xs tabular-nums" datetime={post.data.pubDate.toISOString()}>{dateLabel}</time>
+				</div>
+				<h1 id="article-title" class="max-w-3xl text-3xl leading-[1.4] font-semibold tracking-[-0.035em] text-balance sm:text-4xl sm:leading-[1.35]">{post.data.title}</h1>
+			</header>
+			<div class="max-w-3xl pt-10 text-base leading-[2] break-words text-neutral-700 sm:pt-12 sm:text-lg
+				[&_p]:my-6 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0
+				[&_h2]:mt-12 [&_h2]:mb-5 [&_h2]:text-2xl [&_h2]:leading-relaxed [&_h2]:font-semibold [&_h2]:text-neutral-900
+				[&_h3]:mt-8 [&_h3]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-neutral-900
+				[&_h4]:mt-6 [&_h4]:mb-3 [&_h4]:font-semibold
+				[&_a]:underline [&_a]:decoration-neutral-400 [&_a]:underline-offset-4 hover:[&_a]:text-black
+				[&_ul]:my-6 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:my-2
+				[&_img]:my-8 [&_img]:h-auto [&_img]:max-w-full [&_img]:rounded-sm
+				[&_blockquote]:my-8 [&_blockquote]:border-l-2 [&_blockquote]:border-neutral-300 [&_blockquote]:pl-6 [&_blockquote]:text-neutral-500
+				[&_pre]:my-8 [&_pre]:overflow-x-auto [&_pre]:rounded-sm [&_pre]:border [&_pre]:border-neutral-200 [&_pre]:bg-neutral-50 [&_pre]:p-5 [&_pre]:text-sm
+				[&_code]:font-mono [&_code]:text-[0.9em]
+				[&_table]:my-8 [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_table]:text-base
+				[&_th]:border-b [&_th]:border-neutral-300 [&_th]:p-3 [&_th]:text-left [&_td]:border-b [&_td]:border-neutral-200 [&_td]:p-3
+				[&_hr]:my-10 [&_hr]:border-neutral-200">
+				<Content />
+			</div>
+		</article>
+	</div>
 </Layout>

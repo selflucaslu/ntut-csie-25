@@ -1,0 +1,17 @@
+---
+const isHome = Astro.url.pathname === '/';
+const isNews = Astro.url.pathname.startsWith('/news');
+const navClass = 'flex min-h-10 items-center border-b border-transparent transition-colors hover:border-neutral-400 hover:text-neutral-950 aria-[current=page]:border-neutral-950 aria-[current=page]:text-neutral-950';
+---
+
+<header class="flex items-center justify-between gap-5 border-b border-neutral-200 py-4 sm:py-5">
+	<a href="/" aria-label="北科資工系學會首頁" class="group flex items-center gap-3">
+		<span lang="en" class="border border-neutral-950 px-2 py-1 font-mono text-xs leading-5 font-semibold transition-colors group-hover:bg-neutral-950 group-hover:text-white sm:text-sm">CS<span class="text-lime-600">/</span>25</span>
+		<span lang="en" class="hidden text-xs font-semibold tracking-tight min-[350px]:block sm:text-sm">TAIPEI TECH</span>
+	</a>
+	<nav class="flex shrink-0 items-center gap-4 text-xs text-neutral-500 sm:gap-8 sm:text-sm" aria-label="主要導覽">
+		<a class={navClass} aria-current={isHome ? 'page' : undefined} href="/">首頁</a>
+		<a class={navClass} aria-current={isNews ? 'page' : undefined} href="/news/"><span class="sm:hidden">消息</span><span class="hidden sm:inline">最新消息</span></a>
+		<a class={navClass} href="/#contact"><span class="sm:hidden">聯絡</span><span class="hidden sm:inline">聯絡我們</span></a>
+	</nav>
+</header>

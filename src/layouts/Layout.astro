@@ -1,43 +1,65 @@
 ---
+import '../styles/global.css';
+import FlowBackground from '../components/FlowBackground.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
 interface Props {
 	title?: string;
 	description?: string;
 }
 
 const {
-	title = '北科資工系學會',
-	description = '北科資工第 25 屆系學會官方網站，提供最新公告與活動資訊。',
+	title = '北科資工系學會｜Taipei Tech CSIE',
+	description = '北科資工第 25 屆系學會官方網站，提供最新消息與活動資訊。',
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" class="scroll-smooth motion-reduce:scroll-auto">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
+		<!-- 版本參數可避免瀏覽器沿用舊的 Astro favicon 快取。 -->
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=1" />
+		<meta name="theme-color" content="#0a0a0a" />
 		<title>{title}</title>
 	</head>
-	<body>
-		<header>
-			<a href="/">北科資工系學會</a>
-			<nav aria-label="主要導覽">
-				<a href="/">首頁</a>
-				<a href="/news/">最新公告</a>
-				<a href="/#contact">聯絡我們</a>
-			</nav>
-		</header>
-		<main><slot /></main>
-		<footer>北科資工第 25 屆系學會</footer>
+	<body class="overflow-x-hidden bg-white font-sans text-neutral-950 antialiased selection:bg-neutral-200 [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-4 [&_:focus-visible]:outline-neutral-700">
+		<a href="#main-content" class="sr-only z-50 bg-white p-4 focus:not-sr-only focus:fixed focus:top-2 focus:left-2">跳至主要內容</a>
+		<!-- 背景固定在內容下層，讓所有頁面共用同一套 Flow 視覺。 -->
+		<FlowBackground />
+		<div class="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-5 sm:px-8 lg:px-12">
+			<SiteHeader />
+			<!-- slot 會被首頁、消息列表或文章頁的內容取代。 -->
+			<main id="main-content" class="min-w-0 flex-1"><slot /></main>
+			<SiteFooter />
+		</div>
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+<script>
+	// 只有允許動態效果的使用者，才啟用區塊進場動畫。
+	const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	if (!motion.matches && 'IntersectionObserver' in window && 'animate' in Element.prototype) {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (!entry.isIntersecting) return;
+				observer.unobserve(entry.target);
+				entry.target.animate(
+					[
+						{ opacity: 0, transform: 'translateY(12px)' },
+						{ opacity: 1, transform: 'translateY(0)' },
+					],
+					{ duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+				);
+			});
+		}, { threshold: 0.12 });
+
+		// 頁面上標有 data-reveal 的區塊，第一次進入畫面時淡入。
+		document.querySelectorAll('[data-reveal]').forEach((element) => observer.observe(element));
+		window.addEventListener('pagehide', () => observer.disconnect(), { once: true });
 	}
-</style>
+</script>

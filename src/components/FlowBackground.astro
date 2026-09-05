@@ -1,0 +1,35 @@
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 z-0 overflow-hidden motion-reduce:hidden">
+	<div class="absolute inset-0 bg-[radial-gradient(circle_at_72%_28%,rgba(163,230,53,0.08),transparent_30%),radial-gradient(circle_at_18%_78%,rgba(0,0,0,0.05),transparent_32%)]"></div>
+	<svg viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full text-neutral-500 opacity-[0.2]" focusable="false">
+		<defs>
+			<linearGradient id="flow-line" x1="0" y1="0" x2="1" y2="1">
+				<stop offset="0" stop-color="currentColor" stop-opacity="0" />
+				<stop offset="0.28" stop-color="currentColor" stop-opacity="0.8" />
+				<stop offset="0.72" stop-color="currentColor" stop-opacity="0.55" />
+				<stop offset="1" stop-color="currentColor" stop-opacity="0" />
+			</linearGradient>
+		</defs>
+		<g fill="none" stroke="url(#flow-line)" stroke-linecap="round">
+			<!-- 右側主流線：範圍較大，並向畫面中央延伸。 -->
+			<g transform="translate(-150 -45) scale(1.12)">
+				<g>
+					<animateTransform attributeName="transform" type="translate" values="0 0; -14 18; 0 0" dur="18s" repeatCount="indefinite" />
+					<path d="M1510 -120 C1060 85 1455 260 1130 455 C900 592 1030 790 1430 1080" stroke-width="2" stroke-dasharray="1 13"><animate attributeName="stroke-dashoffset" values="0;-84" dur="10s" repeatCount="indefinite" /></path>
+					<path d="M1540 -92 C1090 105 1460 280 1155 472 C930 613 1050 805 1450 1060" stroke-width="2.2" stroke-dasharray="1 15"><animate attributeName="stroke-dashoffset" values="0;-96" dur="12s" repeatCount="indefinite" /></path>
+					<path d="M1570 -62 C1120 130 1470 300 1180 490 C965 632 1075 820 1470 1040" stroke-width="2.4" stroke-dasharray="1 17"><animate attributeName="stroke-dashoffset" values="0;-108" dur="14s" repeatCount="indefinite" /></path>
+					<path d="M1600 -30 C1150 155 1485 320 1205 510 C1000 650 1100 840 1490 1020" stroke-width="1.8" stroke-dasharray="1 12"><animate attributeName="stroke-dashoffset" values="0;-78" dur="9s" repeatCount="indefinite" /></path>
+					<path d="M1630 5 C1190 180 1500 345 1230 530 C1035 668 1130 855 1510 1000" stroke-width="2.1" stroke-dasharray="1 16"><animate attributeName="stroke-dashoffset" values="0;-102" dur="13s" repeatCount="indefinite" /></path>
+				</g>
+			</g>
+			<!-- 左側輔助流線：降低透明度，避免與主要內容競爭。 -->
+			<g transform="translate(95 -20) scale(1.08)" opacity="0.64">
+				<g>
+					<animateTransform attributeName="transform" type="translate" values="0 0; 12 -15; 0 0" dur="22s" repeatCount="indefinite" />
+					<path d="M-170 110 C215 250 -70 430 175 590 C360 710 250 865 -80 1080" stroke-width="2" stroke-dasharray="1 16"><animate attributeName="stroke-dashoffset" values="0;102" dur="15s" repeatCount="indefinite" /></path>
+					<path d="M-205 135 C180 272 -100 450 145 610 C325 730 215 882 -110 1060" stroke-width="1.8" stroke-dasharray="1 13"><animate attributeName="stroke-dashoffset" values="0;84" dur="12s" repeatCount="indefinite" /></path>
+					<path d="M-240 160 C145 295 -130 470 115 632 C290 748 180 900 -140 1040" stroke-width="2.2" stroke-dasharray="1 18"><animate attributeName="stroke-dashoffset" values="0;114" dur="17s" repeatCount="indefinite" /></path>
+				</g>
+			</g>
+		</g>
+	</svg>
+</div>
