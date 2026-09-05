@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+
+// 每篇 Markdown 產生一個網址，例如 /news/welcome/。
+export async function getStaticPaths() {
+	const posts = await getCollection('news');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { post },
+	}));
+}
+
+interface Props { post: CollectionEntry<'news'>; }
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title}｜北科資工系學會`} description={post.data.description}>
+	<a href="/news/">← 回到最新公告</a>
+	<article>
+		<h1>{post.data.title}</h1>
+		<time datetime={post.data.pubDate.toISOString()}>
+			{post.data.pubDate.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei' })}
+		</time>
+		<Content />
+	</article>
+</Layout>

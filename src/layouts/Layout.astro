@@ -1,15 +1,35 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = '北科資工系學會',
+	description = '北科資工第 25 屆系學會官方網站，提供最新公告與活動資訊。',
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="zh-Hant">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<header>
+			<a href="/">北科資工系學會</a>
+			<nav aria-label="主要導覽">
+				<a href="/">首頁</a>
+				<a href="/news/">最新公告</a>
+				<a href="/#contact">聯絡我們</a>
+			</nav>
+		</header>
+		<main><slot /></main>
+		<footer>北科資工第 25 屆系學會</footer>
 	</body>
 </html>
 

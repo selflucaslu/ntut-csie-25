@@ -1,15 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-import cloudflare from '@astrojs/cloudflare';
-
-// https://astro.build/config
-export default defineConfig({
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true
-    },
-
-    imageService: "cloudflare"
-  })
-});
+// 公告網站產生靜態 HTML，供 Cloudflare Pages 使用。
+export default defineConfig({ output: 'static' });

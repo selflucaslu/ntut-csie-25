@@ -1,11 +1,33 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// 先依日期由新到舊排序，再取前三篇。
+const posts = (await getCollection('news'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 
 <Layout>
 	<Welcome />
+	<section aria-labelledby="news-title">
+		<h2 id="news-title">最新公告</h2>
+		<ul class="news-list">
+			{posts.map((post) => (
+				<li>
+					<time datetime={post.data.pubDate.toISOString()}>
+						{post.data.pubDate.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei' })}
+					</time>
+					<h3><a href={`/news/${post.id}/`}>{post.data.title}</a></h3>
+					<p>{post.data.description}</p>
+				</li>
+			))}
+		</ul>
+		{posts.length === 0 && <p>目前沒有公告。</p>}
+		<a href="/news/">查看所有公告 →</a>
+	</section>
+	<section id="contact" aria-labelledby="contact-title">
+		<h2 id="contact-title">聯絡我們</h2>
+	</section>
 </Layout>

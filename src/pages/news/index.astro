@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('news')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="最新公告｜北科資工系學會">
+	<h1>最新公告</h1>
+	<ul class="news-list">
+		{posts.map((post) => (
+			<li>
+				<time datetime={post.data.pubDate.toISOString()}>
+					{post.data.pubDate.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei' })}
+				</time>
+				<h2><a href={`/news/${post.id}/`}>{post.data.title}</a></h2>
+				<p>{post.data.description}</p>
+			</li>
+		))}
+	</ul>
+	{posts.length === 0 && <p>目前沒有公告。</p>}
+</Layout>
