@@ -1,3 +1,5 @@
+import cms from '../cms.config.mjs';
+
 interface Env {
 	GITHUB_OAUTH_ID: string;
 	GITHUB_OAUTH_SECRET: string;
@@ -14,7 +16,7 @@ interface GitHubTokenResponse {
 	error_description?: string;
 }
 
-const SITE_ORIGIN = 'https://ntutcsie.pages.dev';
+const SITE_ORIGIN = cms.siteUrl.replace(/\/+$/u, '');
 const CALLBACK_URL = `${SITE_ORIGIN}/callback`;
 
 function readCookie(request: Request, name: string) {

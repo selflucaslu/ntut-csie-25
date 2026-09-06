@@ -1,3 +1,5 @@
+import cms from '../cms.config.mjs';
+
 interface Env {
 	GITHUB_OAUTH_ID: string;
 }
@@ -7,7 +9,7 @@ interface FunctionContext {
 	env: Env;
 }
 
-const SITE_ORIGIN = 'https://ntutcsie.pages.dev';
+const SITE_ORIGIN = cms.siteUrl.replace(/\/+$/u, '');
 const CALLBACK_URL = `${SITE_ORIGIN}/callback`;
 const COOKIE_MAX_AGE = 10 * 60;
 
@@ -55,8 +57,8 @@ export const onRequestGet = async ({ request, env }: FunctionContext) => {
 
 	authorizationUrl.searchParams.set('client_id', env.GITHUB_OAUTH_ID);
 	authorizationUrl.searchParams.set('redirect_uri', CALLBACK_URL);
-	// Repository 目前由組織管理，因此需要 repo 權限才能讀寫文章。
-	authorizationUrl.searchParams.set('scope', 'repo,user');
+	// 私人 Repository 需要 repo scope；公開範本可改用權限較小的 public_repo。
+	authorizationUrl.searchParams.set('scope', cms.repositoryPrivate ? 'repo,user' : 'public_repo,user');
 	authorizationUrl.searchParams.set('state', state);
 	authorizationUrl.searchParams.set('code_challenge', codeChallenge);
 	authorizationUrl.searchParams.set('code_challenge_method', 'S256');

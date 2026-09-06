@@ -1,31 +1,28 @@
+# 此檔案由 scripts/generate-cms-config.mjs 自動產生，請修改根目錄的 cms.config.mjs。
 backend:
-  # 正式環境使用 GitHub 登入，並將文章提交到網站的 main 分支。
   name: github
-  repo: ntutcsiesa/ntut-csie-25
-  branch: main
-  site_domain: ntutcsie.pages.dev
-  # OAuth 由同一個 Cloudflare Pages 專案的 /auth 與 /callback 處理。
-  base_url: https://ntutcsie.pages.dev
+  repo: "ntutcsiesa/ntut-csie-25"
+  branch: "main"
+  site_domain: "ntutcsie.pages.dev"
+  base_url: "https://ntutcsie.pages.dev"
   auth_endpoint: /auth
 
-# Decap CMS 用這些網址產生返回網站及文章預覽的連結。
-site_url: https://ntutcsie.pages.dev
-display_url: https://ntutcsie.pages.dev
-logo_url: https://ntutcsie.pages.dev/favicon.svg
+site_url: "https://ntutcsie.pages.dev"
+display_url: "https://ntutcsie.pages.dev"
+logo_url: "https://ntutcsie.pages.dev/favicon.svg"
 
-# 開發時搭配 `npx decap-server`，可直接讀寫本機的 Markdown 檔案。
+# 本機搭配 npx decap-server 時，直接讀寫目前的 Git Repository。
 local_backend: true
 
-# 圖片會保存到 public/uploads，文章內則使用網站公開路徑 /uploads。
-media_folder: public/uploads
-public_folder: /uploads
+media_folder: "public/uploads"
+public_folder: "/uploads"
 
 collections:
-  - name: news
-    label: 最新消息
-    label_singular: 文章
-    description: 管理首頁與 NEWS 頁面顯示的文章。
-    folder: src/content/news
+  - name: "news"
+    label: "最新消息"
+    label_singular: "文章"
+    description: "管理首頁與 NEWS 頁面顯示的文章。"
+    folder: "src/content/news"
     create: true
     extension: md
     format: frontmatter
@@ -36,7 +33,6 @@ collections:
       - pubDate
       - title
     editor:
-      # 網站使用 Astro 與 Tailwind 排版；停用不一致的 CMS 預覽畫面。
       preview: false
     fields:
       - label: 標題

@@ -6,12 +6,13 @@
     "node": ">=22.19.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro build && wrangler pages dev",
+    "generate:cms": "node scripts/generate-cms-config.mjs",
+    "dev": "npm run generate:cms && astro dev",
+    "build": "npm run generate:cms && astro build",
+    "preview": "npm run build && wrangler pages dev",
     "astro": "astro",
     "generate-types": "wrangler types",
-    "deploy": "astro build && wrangler pages deploy",
+    "deploy": "npm run build && wrangler pages deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
