@@ -9,11 +9,9 @@
     "generate:cms": "node scripts/generate-cms-config.mjs",
     "dev": "npm run generate:cms && astro dev",
     "build": "npm run generate:cms && astro build",
-    "preview": "npm run build && wrangler pages dev",
+    "preview": "npm run build && wrangler pages dev dist",
     "astro": "astro",
-    "generate-types": "wrangler types",
-    "deploy": "npm run build && wrangler pages deploy",
-    "cf-typegen": "wrangler types"
+    "deploy": "npm run build && wrangler pages deploy dist"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.0",

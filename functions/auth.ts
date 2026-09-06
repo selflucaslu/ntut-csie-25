@@ -2,6 +2,7 @@ import cms from '../cms.config.mjs';
 
 interface Env {
 	GITHUB_OAUTH_ID: string;
+	GITHUB_OAUTH_SECRET: string;
 }
 
 interface FunctionContext {
@@ -46,7 +47,8 @@ export const onRequestGet = async ({ request, env }: FunctionContext) => {
 		return new Response('Invalid OAuth provider.', { status: 400 });
 	}
 
-	if (!env.GITHUB_OAUTH_ID) {
+	// 登入前先確認 OAuth 所需的兩個環境值都已完成設定。
+	if (!env.GITHUB_OAUTH_ID || !env.GITHUB_OAUTH_SECRET) {
 		return new Response('OAuth is not configured.', { status: 500 });
 	}
 

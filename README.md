@@ -121,10 +121,10 @@ https://你的網域/callback
 
 | 名稱 | 類型 | 內容 |
 | --- | --- | --- |
-| `GITHUB_OAUTH_ID` | Secret | GitHub OAuth Client ID |
+| `GITHUB_OAUTH_ID` | 一般文字 | GitHub OAuth Client ID |
 | `GITHUB_OAUTH_SECRET` | Secret | GitHub OAuth Client Secret |
 
-Secret 不可寫入程式碼。儲存變數並重新部署後，即可從 `/admin/` 登入；若顯示 `OAuth is not configured.`，請檢查這兩個 Production 變數是否已設定。
+Secret 不可寫入程式碼。儲存並重新部署後，即可從 `/admin/` 登入；若顯示 `OAuth is not configured.`，請檢查這兩個 Production 變數是否已設定。
 
 ### 本機測試 CMS
 
@@ -181,16 +181,14 @@ Secret 不可寫入程式碼。儲存變數並重新部署後，即可從 `/admi
 │   ├── styles/
 │   │   └── global.css                  # Tailwind 與少量全域樣式
 │   ├── content.config.ts               # News Content Collection Schema
-│   └── env.d.ts                         # Astro 環境型別
-├── .dev.vars.example                   # 本機 OAuth 環境變數範例
+│   └── env.d.ts                         # Astro 環境型別變數範例
 ├── .node-version                       # 專案使用的 Node.js 版本
 ├── astro.config.mjs                    # Astro 與 Tailwind 設定
 ├── cms.config.mjs                      # CMS 共用設定來源
 ├── package.json                        # 套件與 npm 指令
 ├── package-lock.json                   # 鎖定套件版本
 ├── tsconfig.json                       # TypeScript 設定
-├── worker-configuration.d.ts           # Cloudflare Runtime 型別
-└── wrangler.jsonc                      # Cloudflare Pages 設定
+└── worker-configuration.d.ts           # Cloudflare Runtime 型別
 ```
 
 ## 安全性
