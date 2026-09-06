@@ -1,0 +1,3 @@
+# 僅供本機測試參考，請勿在這個範例檔填入真正的密鑰。
+GITHUB_OAUTH_ID="your-github-oauth-client-id"
+GITHUB_OAUTH_SECRET="your-github-oauth-client-secret"

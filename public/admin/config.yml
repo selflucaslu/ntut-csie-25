@@ -4,6 +4,9 @@ backend:
   repo: ntutcsiesa/ntut-csie-25
   branch: main
   site_domain: ntutcsie.pages.dev
+  # OAuth 由同一個 Cloudflare Pages 專案的 /auth 與 /callback 處理。
+  base_url: https://ntutcsie.pages.dev
+  auth_endpoint: /auth
 
 # Decap CMS 用這些網址產生返回網站及文章預覽的連結。
 site_url: https://ntutcsie.pages.dev
