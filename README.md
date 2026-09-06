@@ -121,7 +121,7 @@ https://你的網域/callback
 
 | 名稱 | 類型 | 內容 |
 | --- | --- | --- |
-| `GITHUB_OAUTH_ID` | 一般文字 | GitHub OAuth Client ID |
+| `GITHUB_OAUTH_ID` | Secret | GitHub OAuth Client ID |
 | `GITHUB_OAUTH_SECRET` | Secret | GitHub OAuth Client Secret |
 
 Secret 不可寫入程式碼。儲存變數並重新部署後，即可從 `/admin/` 登入；若顯示 `OAuth is not configured.`，請檢查這兩個 Production 變數是否已設定。

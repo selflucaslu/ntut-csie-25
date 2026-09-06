@@ -10,7 +10,11 @@
 	"observability": {
 		"enabled": true
 	},
-	"upload_source_maps": true
+	"upload_source_maps": true,
+	// OAuth 值僅宣告名稱；實際內容必須保存在 Cloudflare Variables and Secrets。
+	"secrets": {
+		"required": ["GITHUB_OAUTH_ID", "GITHUB_OAUTH_SECRET"]
+	}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
