@@ -1,0 +1,54 @@
+backend:
+  # 正式環境使用 GitHub 登入，並將文章提交到網站的 main 分支。
+  name: github
+  repo: ntutcsiesa/ntut-csie-25
+  branch: main
+  site_domain: ntutcsie.pages.dev
+
+# Decap CMS 用這些網址產生返回網站及文章預覽的連結。
+site_url: https://ntutcsie.pages.dev
+display_url: https://ntutcsie.pages.dev
+logo_url: https://ntutcsie.pages.dev/favicon.svg
+
+# 開發時搭配 `npx decap-server`，可直接讀寫本機的 Markdown 檔案。
+local_backend: true
+
+# 圖片會保存到 public/uploads，文章內則使用網站公開路徑 /uploads。
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: news
+    label: 最新消息
+    label_singular: 文章
+    description: 管理首頁與 NEWS 頁面顯示的文章。
+    folder: src/content/news
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    preview_path: "news/{{slug}}/"
+    summary: "{{pubDate}}｜{{title}}"
+    sortable_fields:
+      - pubDate
+      - title
+    editor:
+      # 網站使用 Astro 與 Tailwind 排版；停用不一致的 CMS 預覽畫面。
+      preview: false
+    fields:
+      - label: 標題
+        name: title
+        widget: string
+      - label: 簡短說明
+        name: description
+        widget: text
+        hint: 顯示在首頁及 NEWS 列表，建議使用一至兩句話。
+      - label: 發布日期
+        name: pubDate
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: YYYY-MM-DD
+        time_format: false
+      - label: 文章內容
+        name: body
+        widget: markdown
