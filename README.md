@@ -111,9 +111,16 @@ src/content/news/department-open-house.md
 │   ├── content.config.ts               # News Content Collection Schema
 │   └── env.d.ts                         # Astro 環境型別變數範例
 ├── astro.config.mjs                    # Astro 與 Tailwind 設定
+├── LICENSE.md                          # 程式碼與內容的授權條款
 ├── package.json                        # 套件與 npm 指令
 ├── package-lock.json                   # 鎖定套件版本
 ├── tsconfig.json                       # TypeScript 設定
 ├── worker-configuration.d.ts           # Cloudflare Runtime 型別
 └── wrangler.jsonc                      # Cloudflare Pages 設定
 ```
+
+## 授權 / License
+
+本專案採用混合授權，詳細內容請參閱 [授權條款](./LICENSE.md)。
+
+This project uses mixed licensing. See the [license terms](./LICENSE.md) for details.
