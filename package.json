@@ -3,15 +3,16 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=22.19.0"
+    "node": ">=22.12.0"
   },
   "scripts": {
-    "generate:cms": "node scripts/generate-cms-config.mjs",
-    "dev": "npm run generate:cms && astro dev",
-    "build": "npm run generate:cms && astro build",
-    "preview": "npm run build && wrangler pages dev dist",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro build && wrangler pages dev",
     "astro": "astro",
-    "deploy": "npm run build && wrangler pages deploy dist"
+    "generate-types": "wrangler types",
+    "deploy": "astro build && wrangler pages deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.0",
